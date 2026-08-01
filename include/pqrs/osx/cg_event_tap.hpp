@@ -52,13 +52,12 @@ public:
     return true;
   }
 
-  [[nodiscard]] bool set_enabled(bool enabled) const {
-    if (!port_) {
-      return false;
-    }
+  [[nodiscard]] bool enable() const {
+    return apply_enabled_state(true);
+  }
 
-    CGEventTapEnable(port_.get(), enabled);
-    return CGEventTapIsEnabled(port_.get()) == enabled;
+  [[nodiscard]] bool disable() const {
+    return apply_enabled_state(false);
   }
 
   void invalidate() {
@@ -83,6 +82,15 @@ public:
   }
 
 private:
+  [[nodiscard]] bool apply_enabled_state(bool enabled) const {
+    if (!port_) {
+      return false;
+    }
+
+    CGEventTapEnable(port_.get(), enabled);
+    return CGEventTapIsEnabled(port_.get()) == enabled;
+  }
+
   pqrs::cf::cf_ptr<CFMachPortRef> port_;
   pqrs::cf::cf_ptr<CFRunLoopRef> run_loop_;
   pqrs::cf::cf_ptr<CFRunLoopSourceRef> run_loop_source_;

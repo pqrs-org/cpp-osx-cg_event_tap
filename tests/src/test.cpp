@@ -30,7 +30,8 @@ int main() {
 
     expect(event_tap.valid() == false);
     expect(event_tap.attach_to_run_loop(run_loop) == false);
-    expect(event_tap.set_enabled(true) == false);
+    expect(event_tap.enable() == false);
+    expect(event_tap.disable() == false);
 
     event_tap.invalidate();
     expect(event_tap.valid() == false);

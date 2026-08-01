@@ -17,7 +17,7 @@ CGEventRef callback(CGEventTapProxy,
       type == kCGEventTapDisabledByUserInput) {
     if (context &&
         context->event_tap) {
-      if (!context->event_tap->set_enabled(true)) {
+      if (!context->event_tap->enable()) {
         std::cerr << "Failed to re-enable the event tap." << std::endl;
       }
     }
@@ -47,7 +47,7 @@ int main() {
   context.event_tap = &event_tap;
   pqrs::cf::cf_ptr<CFRunLoopRef> run_loop(CFRunLoopGetCurrent());
   if (!event_tap.attach_to_run_loop(run_loop) ||
-      !event_tap.set_enabled(true)) {
+      !event_tap.enable()) {
     std::cerr << "Failed to start the event tap." << std::endl;
     return 1;
   }
